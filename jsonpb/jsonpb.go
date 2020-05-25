@@ -642,7 +642,7 @@ func (m *Marshaler) marshalValue(out *errWriter, prop *proto.Properties, v refle
 	}
 
 	if v.Kind() == reflect.Int64 || v.Kind() == reflect.Uint64 {
-		sval = fmt.Sprintf("%d", v.Interface())
+		var sval = fmt.Sprintf("%d", v.Interface())
 		if sval != "" {
 			out.write(sval)
 			return out.err
