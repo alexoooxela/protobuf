@@ -128,6 +128,7 @@ func (w *jsonWriter) write(s string) {
 }
 
 func (w *jsonWriter) marshalMessage(m protoreflect.Message, indent, typeURL string) error {
+	fmt.Printf("MESSAGE: %+#v\n", m)
 	if jsm, ok := proto.MessageV1(m.Interface()).(JSONPBMarshaler); ok {
 		b, err := jsm.MarshalJSONPB(w.Marshaler)
 		if err != nil {
@@ -539,9 +540,9 @@ func (w *jsonWriter) marshalSingularValue(fd protoreflect.FieldDescriptor, v pro
 				w.write(`"NaN"`)
 				return nil
 			}
-			// case int64, uint64:
-			// w.write(fmt.Sprintf(`"%d"`, v.Interface()))
-			// return nil
+		case int64, uint64:
+			w.write(fmt.Sprintf("%d", v.Interface()))
+			return nil
 		}
 
 		b, err := json.Marshal(v.Interface())
